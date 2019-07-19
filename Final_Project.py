@@ -1,11 +1,11 @@
 # Tic Tac Toe
 import random
 
+
 class TicTacToe:
 
     def drawBoard(self, board):
         # This function prints out the board that it was passed.
-
         # "board" is a list of 10 strings representing the board (ignore index 0)
         print('   |   |')
         print(' ' + board[7] + ' | ' + board[8] + ' | ' + board[9])
@@ -20,14 +20,14 @@ class TicTacToe:
         print('   |   |')
 
     def inputPlayerLetter(self):
-        # Lets the player type which letter they want to be.
-        # Returns a list with the player's letter as the first item, and the computer's letter as the second.
+        # Lets Player 1 type which letter they want to be.
+        # Returns a list with Player 1's letter as the first item, and Player 2's letter as the second.
         letter = ''
         while not (letter == 'X' or letter == 'O'):
             print('Do you want to be X or O?')
             letter = input().upper()
 
-        # the first element in the tuple is the player's letter, the second is the computer's letter.
+        #The first element in the tuple is Player 1's letter, the second is Player 2's letter.
         if letter == 'X':
             return ['X', 'O']
         else:
@@ -61,15 +61,6 @@ class TicTacToe:
         (bo[9] == le and bo[5] == le and bo[1] == le)) # diagonal
 
 
-    def getBoardCopy(self, board):
-        # Make a duplicate of the board list and return it the duplicate.
-        dupeBoard = []
-
-        for i in board:
-            dupeBoard.append(i)
-
-        return dupeBoard
-
 
     def isSpaceFree(self, board, move):
         # Return true if the passed move is free on the passed board.
@@ -84,54 +75,6 @@ class TicTacToe:
             move = input()
         return int(move)
 
-    def chooseRandomMoveFromList(self, board, movesList):
-        # Returns a valid move from the passed list on the passed board.
-        # Returns None if there is no valid move.
-        possibleMoves = []
-        for i in movesList:
-            if TicTacToe.isSpaceFree(self, board, i):
-                possibleMoves.append(i)
-
-        if len(possibleMoves) != 0:
-            return random.choice(possibleMoves)
-        else:
-            return None
-
-    def getComputerMove(self, board, computerLetter):
-        # Given a board and the computer's letter, determine where to move and return that move.
-        if computerLetter == 'X':
-            playerLetter = 'O'
-        else:
-            playerLetter = 'X'
-
-        # Here is our algorithm for our Tic Tac Toe AI:
-        # First, check if we can win in the next move
-        for i in range(1, 10):
-            copy = TicTacToe.getBoardCopy(self, board)
-            if TicTacToe.isSpaceFree(self, copy, i):
-                TicTacToe.makeMove(self, copy, computerLetter, i)
-                if TicTacToe.isWinner(self, copy, computerLetter):
-                    return i
-
-        # Check if the player could win on his next move, and block them.
-        for i in range(1, 10):
-            copy = TicTacToe.getBoardCopy(self, board)
-            if TicTacToe.isSpaceFree(self, copy, i):
-                TicTacToe.makeMove(self, copy, playerLetter, i)
-                if TicTacToe.isWinner(self, copy, playerLetter):
-                    return i
-
-        # Try to take one of the corners, if they are free.
-        move = TicTacToe.chooseRandomMoveFromList(self, board, [1, 3, 7, 9])
-        if move != None:
-            return move
-
-        # Try to take the center, if it is free.
-        if TicTacToe.isSpaceFree(self, board, 5):
-            return 5
-
-        # Move on one of the sides.
-        return TicTacToe.chooseRandomMoveFromList(self, board, [2, 4, 6, 8])
 
     def isBoardFull(self, board):
         # Return True if every space on the board has been taken. Otherwise return False.
@@ -139,6 +82,7 @@ class TicTacToe:
             if TicTacToe.isSpaceFree(self, board, i):
                 return False
         return True
+
 
 
 game = TicTacToe()
@@ -157,6 +101,7 @@ while True:
         if turn == "player":
             # Player's turn.
             game.drawBoard(theBoard)
+            print('Player 1 to play...')
             move = game.getPlayerMove(theBoard)
             game.makeMove(theBoard, player1Letter, move)
 
@@ -173,8 +118,9 @@ while True:
                     turn = 'computer'
 
         else:
-            # Computer's turn.
+            # Player 2's turn.
             game.drawBoard(theBoard)
+            print('Player 2 to play...')
             move = game.getPlayerMove(theBoard)
             game.makeMove(theBoard, player2Letter, move)
 
